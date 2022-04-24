@@ -1,0 +1,30 @@
+const Home = () => {
+    const [randomCharacters, setRandomCharacters] = useState([]);
+    const [totalCharacters, setTotalCharacters] = useState('');
+
+
+    useEffect(() => {
+        axios.get('https://rickandmortyapi.com/api/character')
+            .then((response) => {
+                setTotalCharacters(response.data.info.count)
+            })
+    }, [])
+
+    useEffect(() =>{
+        axios.get('https://rickandmortyapi.com/api/character/1,23,'+ randomNumber(0, totalCharacters,4))
+            .then((response) => {
+                response.data.map(() => (
+                    setRandomCharacters(response.data)
+                ))
+            })
+    }, [])
+
+    return (
+        <div>
+            <Navigation/>
+            {randomCharacters.map( (character) => (
+                <Card key={character.id} character={character}/>
+            ))}
+        </div>
+    );
+};
